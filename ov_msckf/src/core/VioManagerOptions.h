@@ -54,12 +54,16 @@ namespace ov_msckf {
  * You will also need to add it to the print statement at the bottom of each.
  */
 struct VioManagerOptions {
+  std::string frame_id_ = "global";
 
   /**
    * @brief This function will load the non-simulation parameters of the system and print.
    * @param parser If not null, this parser will be used to load our parameters
    */
   void print_and_load(const std::shared_ptr<ov_core::YamlParser> &parser = nullptr) {
+    if (parser != nullptr)
+      parser->parse_config("base_frame_id", frame_id_);
+
     print_and_load_estimator(parser);
     print_and_load_trackers(parser);
     print_and_load_noise(parser);
